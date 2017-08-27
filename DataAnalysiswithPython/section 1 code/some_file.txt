@@ -1,3 +1,0 @@
-This is some file
-It has a few line
-This is the last line
