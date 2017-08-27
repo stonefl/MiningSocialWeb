@@ -25,7 +25,7 @@ CONSUMER_KEY = "q1BbMVgJGpPZ3IVrCkmv1tcix"
 CONSUMER_SECRET = "sfwpBjHPijxbjTBDyiOmFb5MxcGa3LaXUpim1NmbA1gWFfzVjK"
 ACCESS_TOKEN = "770679954-vWDVGhFKOdwR1vzN56Cgcc2Rcf4QoGhCBPwOvcgd"
 ACCESS_SECRET = "VKmuoM3wLDwT8QrOhyzE9ySIsZQnnEp4FSRGdXVLbTLSl"
-SAVED_FILE_PATH = "./data/search_data_08.txt"
+SAVED_FILE_PATH = "./data/search_data_10.txt"
 
 
 def get_args_parser():
@@ -41,7 +41,7 @@ def get_args_parser():
     parser.add_argument(
         '-n', '--maxnumtweets',
         metavar='maxNumTweets',
-        default = 10000, #curently can be 18,000 maximum, and can be upgraded to 45000 maximum
+        default = 14000, #curently can be 18,000 maximum, and can be upgraded to 45000 maximum
         help='set number of tweets to retrieve'
     )
     
@@ -86,11 +86,11 @@ if __name__ == '__main__':
     
     # If results from a specific ID onwards are reqd, set since_id to that ID.
     # else default to no lower limit, go as far back as API allows
-    sinceId = args.sinceid
+    sinceId = int(args.sinceid)
     
     # If results only below a specific ID are, set max_id to that ID.
     # else default to no upper limit, start from the most recent tweet matching the search query.
-    maxId = args.maxid
+    maxId = int(args.maxid)
     
     # Could update to appplication-only auth in future
     auth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
@@ -120,14 +120,14 @@ if __name__ == '__main__':
                         new_tweets = api.search(q=searchedQuery, lang = 'en', count=maxTweetsPerQuery)
                     else:
                         new_tweets = api.search(q=searchedQuery, lang = 'en', count=maxTweetsPerQuery,
-                                                since_id=sinceId)
+                                                since_id=str(sinceId))
                 else:
                     if(not sinceId):
                         new_tweets = api.search(q=searchedQuery, lang = 'en', count=maxTweetsPerQuery,
                                                 max_id=str(maxId-1))
                     else:
                         new_tweets = api.search(q=searchedQuery, lang = 'en', count=maxTweetsPerQuery,
-                                                since_id=sinceId, max_id=str(maxId-1))
+                                                since_id=str(sinceId), max_id=str(maxId-1))
                 
                 # if cannot find any more new tweets
                 if(not new_tweets):
